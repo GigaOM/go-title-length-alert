@@ -54,7 +54,7 @@ class GO_TitleLengthAlert
 		// pass our configuration to our js
 		wp_localize_script(
 			'go-title-length-alert',
-			'go_title_length_alert',
+			'go_title_length_alert_config',
 			array(
 				'alert_threshold' => $this->config( 'alert_threshold' ),
 				'high_alert_threshold' => $this->config( 'high_alert_threshold' ),
