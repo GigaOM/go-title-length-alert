@@ -13,7 +13,7 @@ class GO_TitleLengthAlert
 	 */
 	public function __construct()
 	{
-		// 	Register hooks. this is only used in admin dashboard
+		// Register hooks. this is only used in admin dashboard
 		if ( ! is_admin() )
 		{
 			return;
