@@ -20,17 +20,22 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 		this.$title_count_span = $( '.go-title-length-alert-count' )
 
 		// keep track of the current title length
-		this.title_length = go_title_length_alert.$title_span.val().length;
+		this.title_length = this.$title_span.val().length;
 
 		// initialize the count
 		this.$title_count_span.text( this.title_length.toString() );
+
+		// set up a callback on keyup events to update the title length
+		$( document ).on( 'keyup', '#title', function() {
+			go_title_length_alert.update_title_count();
+		});
 	};
 
 	//*--
 	//* the callback function to update the title length count
 	//*
 	go_title_length_alert.update_title_count = function() {
-		if ( 'undefined' === typeof this.$title_span ) {
+		if ( ! this.$title_span.length ) {
 			return;
 		}
 
@@ -46,7 +51,7 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 		this.$title_count_span.text( this.title_length.toString() );
 
 		// do not continue if we don't have our threshold limits
-		if ( 'undefined' == typeof go_title_length_alert_config || ! go_title_length_alert_config ){
+		if ( 'undefined' === typeof go_title_length_alert_config || ! go_title_length_alert_config ){
 			return;
 		}
 
@@ -64,9 +69,5 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 
 	$( function() {
 		go_title_length_alert.init();
-
-		$( document ).on( 'keyup', '#title', function() {
-			go_title_length_alert.update_title_count();
-		});
 	});
 })( jQuery );
