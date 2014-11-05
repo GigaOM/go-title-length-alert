@@ -17,7 +17,7 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 
 		// jQuery select these elements once here
 		this.$title_span = $( document.getElementById( 'title' ) );
-		this.$title_count_span = $( '.go-title-length-alert-count' )
+		this.$title_count_span = $( '.go-title-length-alert-count' );
 
 		// keep track of the current title length
 		this.title_length = this.$title_span.val().length;
@@ -65,7 +65,7 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 		else {
 			this.$title_count_span.removeClass( 'go-title-length-alert-alert go-title-length-alert-high-alert' );
 		}
-	}//END update_title_count
+	};//END update_title_count
 
 	$( function() {
 		go_title_length_alert.init();
