@@ -1,7 +1,7 @@
 go-title-length-alert
 =====================
 
-alerts user in the post edit page when the post title length exceeds some configured character count
+Gigaom Post Title Length Alert System
 
 This plugin watches the length of the post title and warns the user via
 the title length message under the title text field when the text exceeds
