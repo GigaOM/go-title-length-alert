@@ -1,49 +1,73 @@
+// create an instance of go_title_length_alert if we haven't already
+if ( 'undefined' === typeof go_title_length_alert ) {
+	var go_title_length_alert = {
+		event: {}
+	};
+}
+
 (function( $ ) {
 	'use strict';
 
-	// add our title char count span
-	$( '#titlewrap' ).append( '<span class="go-title-length-alert">Title length: <span class="go-title-length-alert-count"/></span>' );
+	//*--
+	//* constructor
+	//*	
+	go_title_length_alert.init = function() {
+		// add our title char count span
+		$( '#titlewrap' ).append( '<span class="go-title-length-alert">Title length: <span class="go-title-length-alert-count"/></span>' );
 
-	// jQuery select these elements once here
-	var titleSpan = $( '#title' );
-	var titleCountSpan = $( '.go-title-length-alert-count' )
-	var titleLength = titleSpan.val().trim().length;
+		// jQuery select these elements once here
+		this.$title_span = $( document.getElementById( 'title' ) );
+		this.$title_count_span = $( '.go-title-length-alert-count' );
 
-	// initialize the count
-	titleCountSpan.text( titleLength.toString() );
+		// keep track of the current title length
+		this.title_length = this.$title_span.val().length;
 
-	// the timer callback function to update the title length count
-	var updateTitleCount = function() {
-		// do we really need to update the count?
-		var newTitleLength = titleSpan.val().trim().length;
-		if ( newTitleLength === titleLength ) {
-			setTimeout( updateTitleCount, 1500 ); // rinse and repeat
+		// initialize the count
+		this.$title_count_span.text( this.title_length.toString() );
+
+		// set up a callback on keyup events to update the title length
+		$( document ).on( 'keyup', '#title', function() {
+			go_title_length_alert.update_title_count();
+		});
+	};
+
+	//*--
+	//* the callback function to update the title length count
+	//*
+	go_title_length_alert.update_title_count = function() {
+		if ( ! this.$title_span.length ) {
+			return;
+		}
+
+		// check if we really need to update the count
+		var new_title_length = this.$title_span.val().length;
+
+		if ( new_title_length === this.title_length ) {
 			return; // nope. bail.
 		}
 
 		// update the title length count
-		titleLength = newTitleLength;
-		titleCountSpan.text( titleLength.toString() );
+		this.title_length = new_title_length;
+		this.$title_count_span.text( this.title_length.toString() );
 
 		// do not continue if we don't have our threshold limits
-		if ( undefined === go_title_length_alert || ! go_title_length_alert ){
+		if ( 'undefined' === typeof go_title_length_alert_config || ! go_title_length_alert_config ){
 			return;
 		}
 
 		// conditionally highlight the length count
-		if ( titleLength >= go_title_length_alert.high_alert_threshold ) {
-			titleCountSpan.removeClass( 'go-title-length-alert-alert' ).addClass( 'go-title-length-alert-high-alert' );
+		if ( this.title_length >= go_title_length_alert_config.high_alert_threshold ) {
+			this.$title_count_span.removeClass( 'go-title-length-alert-alert' ).addClass( 'go-title-length-alert-high-alert' );
 		}
-		else if ( titleLength >= go_title_length_alert.alert_threshold ) {
-			titleCountSpan.removeClass( 'go-title-length-alert-high-alert' ).addClass( 'go-title-length-alert-alert' );
+		else if ( this.title_length >= go_title_length_alert_config.alert_threshold ) {
+			this.$title_count_span.removeClass( 'go-title-length-alert-high-alert' ).addClass( 'go-title-length-alert-alert' );
 		}
 		else {
-			titleCountSpan.removeClass( 'go-title-length-alert-alert go-title-length-alert-high-alert' );
+			this.$title_count_span.removeClass( 'go-title-length-alert-alert go-title-length-alert-high-alert' );
 		}
+	};//END update_title_count
 
-		setTimeout( updateTitleCount, 1500 ); // rinse and repeat
-	}//END updateTitleCount
-
-	// refresh our count every 1.5 seconds (but only if the count changed)
-	setTimeout( updateTitleCount, 1500 );
+	$( function() {
+		go_title_length_alert.init();
+	});
 })( jQuery );
