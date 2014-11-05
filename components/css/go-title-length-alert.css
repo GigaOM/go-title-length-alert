@@ -1,0 +1,16 @@
+/* styles for go-title-length-alert plugin */
+.go-title-length-alert {
+	margin-left: 1em;
+}
+
+.go-title-length-alert-count {
+	font-weight: bold;
+}
+
+.go-title-length-alert-alert {
+	color: #ffc000;
+}
+
+.go-title-length-alert-high-alert {
+	color: #ee0000;
+}
