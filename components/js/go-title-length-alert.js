@@ -13,7 +13,7 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 	 */
 	go_title_length_alert.init = function() {
 		// add our title char count span
-		$( document.getElementById( 'titlewrap' ) ).append( '<span class="go-title-length-alert">Title length: <span class="go-title-length-alert-count"/></span>' );
+		$( document.getElementById( 'titlewrap' ) ).append( '<span class="go-title-length-alert"><span class="go-title-length-alert-count"/></span>' );
 
 		// jQuery select these elements once here
 		this.$title = $( document.getElementById( 'title' ) );
@@ -51,11 +51,11 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 
 		// conditionally highlight the length count
 		if ( this.title_length >= this.high_alert_threshold ) {
-			this.$title_count_span.removeClass( 'go-title-length-alert-alert' ).addClass( 'go-title-length-alert-high-alert' );
+			this.$title.removeClass( 'go-title-length-alert-alert' ).addClass( 'go-title-length-alert-high-alert' );
 		} else if ( this.title_length >= this.alert_threshold ) {
-			this.$title_count_span.removeClass( 'go-title-length-alert-high-alert' ).addClass( 'go-title-length-alert-alert' );
+			this.$title.removeClass( 'go-title-length-alert-high-alert' ).addClass( 'go-title-length-alert-alert' );
 		} else {
-			this.$title_count_span.removeClass( 'go-title-length-alert-alert go-title-length-alert-high-alert' );
+			this.$title.removeClass( 'go-title-length-alert-alert go-title-length-alert-high-alert' );
 		}
 	};//END update_title_count
 
