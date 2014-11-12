@@ -27,16 +27,9 @@ class GO_TitleLengthAlert
 	 */
 	public function admin_enqueue_scripts( $hook_suffix )
 	{
-		if ( 'post.php' != $hook_suffix )
+		if ( 'post.php' != $hook_suffix && 'post-new.php' != $hook_suffix )
 		{
 			return; // not on post edit admin page
-		}
-
-		$post = get_post();
-
-		if ( ! is_object( $post ) )
-		{
-			return; // there's no post on page. bail.
 		}
 
 		wp_register_style( 'go-title-length-alert', plugins_url( 'css/go-title-length-alert.css', __FILE__ ), FALSE, $this->version );
@@ -54,7 +47,7 @@ class GO_TitleLengthAlert
 		// pass our configuration to our js
 		wp_localize_script(
 			'go-title-length-alert',
-			'go_title_length_alert_config',
+			'go_title_length_alert',
 			array(
 				'alert_threshold' => $this->config( 'alert_threshold' ),
 				'high_alert_threshold' => $this->config( 'high_alert_threshold' ),

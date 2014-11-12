@@ -8,39 +8,38 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 (function( $ ) {
 	'use strict';
 
-	//*--
-	//* constructor
-	//*	
+	/***
+	 * constructor
+	 */
 	go_title_length_alert.init = function() {
 		// add our title char count span
-		$( '#titlewrap' ).append( '<span class="go-title-length-alert">Title length: <span class="go-title-length-alert-count"/></span>' );
+		$( document.getElementById( 'titlewrap' ) ).append( '<span class="go-title-length-alert">Title length: <span class="go-title-length-alert-count"/></span>' );
 
 		// jQuery select these elements once here
-		this.$title_span = $( document.getElementById( 'title' ) );
+		this.$title = $( document.getElementById( 'title' ) );
 		this.$title_count_span = $( '.go-title-length-alert-count' );
 
 		// keep track of the current title length
-		this.title_length = this.$title_span.val().length;
-
-		// initialize the count
-		this.$title_count_span.text( this.title_length.toString() );
+		this.title_length = 0;
 
 		// set up a callback on keyup events to update the title length
 		$( document ).on( 'keyup', '#title', function() {
 			go_title_length_alert.update_title_count();
 		});
+
+		this.update_title_count();
 	};
 
-	//*--
-	//* the callback function to update the title length count
-	//*
+	/***
+	 * the callback function to update the title length count
+	 */
 	go_title_length_alert.update_title_count = function() {
-		if ( ! this.$title_span.length ) {
+		if ( ! this.$title.length ) {
 			return;
 		}
 
 		// check if we really need to update the count
-		var new_title_length = this.$title_span.val().length;
+		var new_title_length = this.$title.val().length;
 
 		if ( new_title_length === this.title_length ) {
 			return; // nope. bail.
@@ -50,19 +49,12 @@ if ( 'undefined' === typeof go_title_length_alert ) {
 		this.title_length = new_title_length;
 		this.$title_count_span.text( this.title_length.toString() );
 
-		// do not continue if we don't have our threshold limits
-		if ( 'undefined' === typeof go_title_length_alert_config || ! go_title_length_alert_config ){
-			return;
-		}
-
 		// conditionally highlight the length count
-		if ( this.title_length >= go_title_length_alert_config.high_alert_threshold ) {
+		if ( this.title_length >= this.high_alert_threshold ) {
 			this.$title_count_span.removeClass( 'go-title-length-alert-alert' ).addClass( 'go-title-length-alert-high-alert' );
-		}
-		else if ( this.title_length >= go_title_length_alert_config.alert_threshold ) {
+		} else if ( this.title_length >= this.alert_threshold ) {
 			this.$title_count_span.removeClass( 'go-title-length-alert-high-alert' ).addClass( 'go-title-length-alert-alert' );
-		}
-		else {
+		} else {
 			this.$title_count_span.removeClass( 'go-title-length-alert-alert go-title-length-alert-high-alert' );
 		}
 	};//END update_title_count
