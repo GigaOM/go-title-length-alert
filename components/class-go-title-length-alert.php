@@ -32,12 +32,14 @@ class GO_TitleLengthAlert
 			return; // not on post edit admin page
 		}
 
+		$js_min = ( defined( 'GO_DEV' ) && GO_DEV ) ? 'lib' : 'min';
+
 		wp_register_style( 'go-title-length-alert', plugins_url( 'css/go-title-length-alert.css', __FILE__ ), FALSE, $this->version );
 		wp_enqueue_style( 'go-title-length-alert' );
 
 		wp_register_script(
 			'go-title-length-alert',
-			plugins_url( 'js/go-title-length-alert.js', __FILE__ ),
+			plugins_url( 'js/' . $js_min . '/go-title-length-alert.js', __FILE__ ),
 			array( 'jquery' ),
 			$this->version,
 			TRUE
